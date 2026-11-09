@@ -1,0 +1,118 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { projects } from '../data/projects';
+import { linkGroups } from '../data/links';
+import '@fontsource-variable/schibsted-grotesk/wght.css';
+import '@fontsource-variable/geist-mono/wght.css';
+import '../styles/transition.css';
+import '../styles/tech.css';
+---
+<Base
+  title="Tech | Shadi Forrest Portfolio"
+  description="Devices, software and computer vision projects by Shadi Forrest."
+  world="tech"
+>
+  <header class="t-head">
+    <a class="t-home" href={u('/')}>Shadi Forrest</a>
+    <a href="https://github.com/Forrest404">GitHub</a>
+  </header>
+
+  <main class="t-main">
+    <h1 class="t-intro">I build small devices, the software that runs on them, and web products. Most of it is on GitHub.</h1>
+
+    <div class="t-work">
+      <ol class="t-list">
+        {projects.map((p) => (
+          <li class="t-item" data-project={p.id} id={p.id}>
+            {p.images[0] && (
+              <img class="t-inline" src={u(p.images[0].src)} alt="" loading="lazy" decoding="async" width="1200" height="1200" />
+            )}
+            <details>
+              <summary>
+                <h2>{p.name}</h2>
+                <p>{p.summary}</p>
+                <span class="t-meta">
+                  <span>{p.stack}</span>
+                  {p.stars && p.stars >= 10 ? <span>{p.stars} stars</span> : null}
+                </span>
+              </summary>
+              <div class="t-more">
+                {p.details.map((d) => <p>{d}</p>)}
+              </div>
+            </details>
+            <ul class="t-links">
+              {p.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+
+      <div class="t-pane" aria-hidden="true">
+        <div class="t-pane-frame">
+          {projects.map((p, i) => (
+            <div class:list={['t-slide', { on: i === 0, eink: p.eink }]} data-slide={p.id}>
+              {p.images[0]
+                ? <img src={u(p.images[0].src)} alt="" decoding="async" loading={i === 0 ? 'eager' : 'lazy'} />
+                : <span class="t-slide-name">{p.name}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="t-foot">
+    {linkGroups.map((group) => (
+      <div>
+        <h2>{group.title}</h2>
+        <ul>{group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+      </div>
+    ))}
+  </footer>
+
+  <a class="switch" href={u('/media')}>
+    <video data-loop muted loop playsinline preload="none" poster={u('/img/chip.avif')} tabindex="-1" aria-hidden="true">
+      <source src={u('/video/chip.mp4')} type="video/mp4" />
+    </video>
+    <span>Media</span>
+  </a>
+
+  <script>
+    import '../scripts/loops.ts';
+
+    // The sticky pane shows whichever project's top has passed the middle of the
+    // screen. A scroll listener rather than an observer, so fast flicks can't skip one.
+    const items = [...document.querySelectorAll<HTMLElement>('[data-project]')];
+    const slides = new Map(
+      [...document.querySelectorAll<HTMLElement>('[data-slide]')].map((el) => [el.dataset.slide!, el]),
+    );
+    let current = items[0]?.dataset.project;
+    let queued = false;
+
+    const update = () => {
+      queued = false;
+      const middle = window.innerHeight * 0.5;
+      let active = items[0];
+      for (const item of items) {
+        if (item.getBoundingClientRect().top <= middle) active = item;
+      }
+      const id = active?.dataset.project;
+      if (!id || id === current) return;
+      slides.get(current!)?.classList.remove('on');
+      slides.get(id)?.classList.add('on');
+      current = id;
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!queued) {
+          queued = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+  </script>
+</Base>

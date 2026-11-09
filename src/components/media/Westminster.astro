@@ -1,0 +1,20 @@
+---
+import Frame from './Frame.astro';
+import { films } from '../../data/films';
+const film = films.westminster;
+---
+<section class="p-mile" id={film.id}>
+  <div class="w-bib">
+    <span class="pin pin-a" aria-hidden="true"></span><span class="pin pin-b" aria-hidden="true"></span>
+    <span class="pin pin-c" aria-hidden="true"></span><span class="pin pin-d" aria-hidden="true"></span>
+    <p class="w-top">Vitality Westminster Mile</p>
+    <h2 class="w-word">Westminster<br />Mile</h2>
+    <p class="w-num" aria-hidden="true">2025</p>
+    <Frame name="westminster" yt={film.yt} title={film.title} class="w-frame" />
+  </div>
+  <div class="w-copy">
+    <p>A promotional film for the Vitality Westminster Mile, made for London Marathon Events.</p>
+    <p>We interviewed finishers and celebrities on the day, with each person off to one side of the frame looking across it at the interviewer. I shot at 30 fps, switched to 60 for the slow motion, and graded with a LUT I made.</p>
+    <p class="w-time">1 min</p>
+  </div>
+</section>

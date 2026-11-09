@@ -1,0 +1,26 @@
+---
+import Frame from './Frame.astro';
+import { films } from '../../data/films';
+const film = films.grey;
+---
+<section class="p-grey" id={film.id}>
+  <h2 class="g-word"><span>Grey</span><span>Zone</span></h2>
+  <Frame name="grey" yt={film.yt} title={film.title} class="g-frame" ratio="2.39 / 1" />
+
+  <aside class="g-file">
+    <p class="g-tab">Case file</p>
+    <dl>
+      <div><dt>Film</dt><dd>GREY ZONE</dd></div>
+      <div><dt>Genre</dt><dd>Espionage thriller, 2026</dd></div>
+      <div><dt>Set in</dt><dd>London</dd></div>
+      <div><dt>Starring</dt><dd>Tyler Fitzsimmons</dd></div>
+      <div><dt>Written and directed</dt><dd>Shadi Forrest</dd></div>
+    </dl>
+    <span class="g-stamp" aria-hidden="true">Classified</span>
+  </aside>
+
+  <div class="g-copy">
+    <p>A former <span class="bar">MI5 operative</span>, living under a false name, gets drawn out of hiding by what looks like a routine delivery. It's a trap.</p>
+    <p>The chases are handheld, the grade is desaturated, and the title sequence and VFX shots were built in After Effects.</p>
+  </div>
+</section>

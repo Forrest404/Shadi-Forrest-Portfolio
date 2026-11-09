@@ -1,0 +1,21 @@
+---
+import Frame from './Frame.astro';
+import { films } from '../../data/films';
+const film = films.china;
+---
+<section class="p-china" id={film.id}>
+  <h2 class="n-word">China <span>2026</span></h2>
+  <div class="n-ticket">
+    <Frame name="china" yt={film.yt} title={film.title} class="n-frame" />
+    <div class="n-stub">
+      <p>Admit one</p>
+      <p class="n-route">Hong Kong → Shenzhen → the Great Wall</p>
+      <p>36 min</p>
+    </div>
+  </div>
+  <div class="n-copy">
+    <p>A 36-minute vlog from a trip through China, filmed as I went.</p>
+  </div>
+  <span class="n-stamp n-s1" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="ns1" d="M100 100m-72 0a72 72 0 1 1 144 0a72 72 0 1 1 -144 0"></path></defs><circle cx="100" cy="100" r="92"></circle><circle cx="100" cy="100" r="58"></circle><text><textPath href="#ns1" textLength="440">HONG KONG * ARRIVAL * 2026 *</textPath></text><text class="mid" x="100" y="108" text-anchor="middle">HK</text></svg></span>
+  <span class="n-stamp n-s2" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="ns2" d="M100 100m-72 0a72 72 0 1 1 144 0a72 72 0 1 1 -144 0"></path></defs><circle cx="100" cy="100" r="92"></circle><circle cx="100" cy="100" r="58"></circle><text><textPath href="#ns2" textLength="440">SHENZHEN * ENTRY * 2026 *</textPath></text><text class="mid" x="100" y="108" text-anchor="middle">SZ</text></svg></span>
+</section>

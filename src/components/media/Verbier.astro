@@ -1,0 +1,36 @@
+---
+import { u } from '../../lib/url';
+import { films } from '../../data/films';
+const film = films.verbier;
+---
+<section class="p-verbier" id={film.id}>
+  <div class="v-contours" aria-hidden="true"></div>
+  <h2 class="v-word">Verbier</h2>
+
+  <a class="v-frame" href={`https://youtu.be/${film.yt}`} data-film={film.yt} data-title={film.title} aria-label={`Play ${film.title}`}>
+    <video data-loop muted loop playsinline preload="none" poster={u('/img/verbier.avif')} tabindex="-1" aria-hidden="true">
+      <source src={u('/video/verbier.av1.mp4')} type='video/mp4; codecs="av01.0.05M.08"' />
+      <source src={u('/video/verbier.mp4')} type="video/mp4" />
+    </video>
+    <span class="v-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l14 8-14 8z"></path></svg>Play film</span>
+  </a>
+
+  <aside class="pass">
+    <span class="pass-hole" aria-hidden="true"></span>
+    <p class="pass-brand">Film credits</p>
+    <p class="pass-title">{film.title}</p>
+    <dl>
+      <div><dt>Where</dt><dd>Verbier, Switzerland</dd></div>
+      <div><dt>Cameras</dt><dd>Sony FX30, Insta360 X5</dd></div>
+      <div><dt>Air</dt><dd>DJI Mini 3 Pro, Mavic Air 3</dd></div>
+      <div><dt>Credit</dt><dd>Helped film the Freeride World Tour</dd></div>
+    </dl>
+    <span class="pass-code" aria-hidden="true"></span>
+  </aside>
+
+  <div class="v-copy">
+    <p>I film ski days in Verbier, for complete beginners and for the best athletes in the sport. You get a cinematic edit, social-ready clips and all the raw footage.</p>
+    <a class="v-book" href="https://studioforrest.xyz">Book at studioforrest.xyz</a>
+  </div>
+
+</section>

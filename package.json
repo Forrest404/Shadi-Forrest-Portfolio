@@ -1,0 +1,24 @@
+{
+  "name": "shadi-forrest-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "stars": "node scripts/stars.mjs",
+    "letters": "node scripts/letters.mjs",
+    "dev": "astro dev",
+    "build": "node scripts/stars.mjs && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/overpass-mono": "^5.3.0",
+    "astro": "^7.4.7"
+  },
+  "devDependencies": {
+    "opentype.js": "^2.0.0",
+    "puppeteer-core": "^25.16.0",
+    "sharp": "^0.35.5"
+  }
+}

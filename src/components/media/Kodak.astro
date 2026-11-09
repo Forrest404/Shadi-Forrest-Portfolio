@@ -1,0 +1,23 @@
+---
+import Frame from './Frame.astro';
+import { films } from '../../data/films';
+const film = films.kodak;
+---
+<section class="p-kodak" id={film.id}>
+  <h2 class="k-word">Kodak <em>ad</em></h2>
+  <div class="k-row">
+    <figure class="k-box k-a">
+      <Frame name="kodak" yt={film.yt} title="Kodak ad" />
+      <figcaption>The ad <span>1 min 17</span></figcaption>
+    </figure>
+    <figure class="k-box k-b">
+      <Frame name="vfx" yt={film.vfx!} title="Kodak ad: VFX breakdown" />
+      <figcaption>The VFX breakdown <span>2 min 35</span></figcaption>
+    </figure>
+  </div>
+  <div class="k-copy">
+    <p>I made this promo in June 2025. It started as a six-minute film, but that was too much for my time and budget, so I cut it to about a minute and redid the shot list, storyboard and call sheet.</p>
+    <p>I modelled the masks in Blender and printed them on my 3D printer. The black filament ran out after the first one, which is why the other is blue.</p>
+  </div>
+  <span class="k-stripe" aria-hidden="true"></span>
+</section>

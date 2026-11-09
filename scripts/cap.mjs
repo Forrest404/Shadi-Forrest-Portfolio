@@ -1,0 +1,10 @@
+import puppeteer from 'puppeteer-core';
+const [url, out, w=1100, h=1100] = process.argv.slice(2);
+const b = await puppeteer.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:'new'});
+const p = await b.newPage();
+await p.setViewport({width:+w,height:+h,deviceScaleFactor:1.1});
+await p.goto(url,{waitUntil:'networkidle2',timeout:45000});
+await new Promise(r=>setTimeout(r,2500));
+await p.evaluate(()=>{for(const e of document.querySelectorAll('body *')){const c=getComputedStyle(e);if(c.position==='fixed'&&e.getBoundingClientRect().top>300)e.remove();}});
+await p.screenshot({path:out});
+await b.close();

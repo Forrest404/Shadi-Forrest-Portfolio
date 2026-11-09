@@ -1,0 +1,78 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/media/Hero.astro';
+import Verbier from '../components/media/Verbier.astro';
+import GreyZone from '../components/media/GreyZone.astro';
+import Kodak from '../components/media/Kodak.astro';
+import California from '../components/media/California.astro';
+import Westminster from '../components/media/Westminster.astro';
+import China from '../components/media/China.astro';
+import Theatre from '../components/media/Theatre.astro';
+import { rail } from '../data/films';
+import { linkGroups } from '../data/links';
+import '@fontsource/anton/400.css';
+import '@fontsource/overpass-mono/500.css';
+import '@fontsource/overpass-mono/700.css';
+import '../styles/transition.css';
+import '../styles/media.css';
+import '../styles/posters.css';
+---
+<Base
+  title="Media | Shadi Forrest Portfolio"
+  description="Ski films, ads, music videos and short films by Shadi Forrest and Studio Forrest."
+  world="media"
+>
+  <link slot="head" rel="preload" as="image" href={u('/img/letters.avif')} />
+  <main>
+    <Hero />
+    <Verbier />
+    <GreyZone />
+    <Kodak />
+    <California />
+    <Westminster />
+    <China />
+  </main>
+
+  <footer class="m-foot">
+    <p class="m-foot-word">Studio Forrest</p>
+    <div class="m-foot-links">
+      {linkGroups.map((group) => (
+        <div>
+          <h2>{group.title}</h2>
+          <ul>{group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </footer>
+
+  <nav class="rail" aria-label="Films">
+    {rail.map((film) => <a href={`#${film.id}`} data-rail={film.id}>{film.short}</a>)}
+  </nav>
+  <a class="switch" href={u('/tech')}>Tech</a>
+
+  <Theatre />
+
+  <script>
+    import '../scripts/loops.ts';
+
+    // Marks the film currently on screen in the rail.
+    const links = new Map(
+      [...document.querySelectorAll<HTMLAnchorElement>('[data-rail]')].map((a) => [a.dataset.rail!, a]),
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          links.forEach((a) => a.removeAttribute('aria-current'));
+          links.get(entry.target.id)?.setAttribute('aria-current', 'true');
+        }
+      },
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    links.forEach((_, id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+  </script>
+</Base>

@@ -1,0 +1,612 @@
+:root {
+  --wipe-from: inset(0 100% 0 0);
+  --orange: #ff5a1f;
+  --sky: #0b4aa8;
+  --snow: #f5f8fc;
+  --ink: #0a1020;
+  --display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+  --mono: 'Overpass Mono', ui-monospace, monospace;
+  scrollbar-gutter: stable;
+}
+
+:root.locked {
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-variant-ligatures: none;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* ---------- Hero: video inside the letters ---------- */
+.hero {
+  position: relative;
+  overflow: clip;
+  background: var(--orange);
+  padding-top: 1.2vw;
+}
+
+.defs {
+  position: absolute;
+}
+
+.hero-title {
+  position: relative;
+  width: 104vw;
+  margin: 0 0 0 -2vw;
+}
+
+.hero-clip {
+  position: absolute;
+  inset: 0;
+  display: block;
+  clip-path: url(#sf-letters);
+  background: var(--sky);
+}
+
+.hero-clip video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.play {
+  position: absolute;
+  z-index: 3;
+  top: 29.5vw;
+  right: 15vw;
+  width: clamp(120px, 15vw, 280px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--snow);
+  color: var(--ink);
+  transition: transform 300ms cubic-bezier(0.22, 1.4, 0.36, 1), background-color 200ms;
+}
+
+.play:hover {
+  transform: scale(1.08) rotate(-6deg);
+  background: #ffe14d;
+}
+
+.play svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.play text {
+  font-family: var(--display);
+  font-size: 21px;
+  fill: currentColor;
+}
+
+.spin {
+  /* Percentages of the viewBox, so the ring spins about the disc centre at any rendered size. */
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: spin 16s linear infinite;
+}
+
+.tri {
+  fill: var(--orange);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-foot {
+  position: relative;
+  padding: 2.6vw 3vw 5vw;
+}
+
+.hero-by {
+  margin: 0 0 0.16em;
+  font-family: var(--display);
+  font-size: 10.6vw;
+  line-height: 1.04;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero-what {
+  max-width: 30em;
+  margin: 0;
+  font-size: clamp(17px, 1.7vw, 28px);
+  font-weight: 500;
+  line-height: 1.34;
+}
+
+/* ---------- Poster: Verbier ---------- */
+.p-verbier {
+  position: relative;
+  overflow: clip;
+  background: var(--sky);
+  color: var(--snow);
+  padding: 2vw 0 8vw;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 1.6vw;
+}
+
+.v-contours {
+  position: absolute;
+  inset: 0;
+  background: url('/img/contours.svg') center / cover;
+  opacity: 0.2;
+}
+
+.v-word {
+  grid-column: 1 / -1;
+  position: relative;
+  margin: 0 0 0 -1.5vw;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 34.4vw;
+  line-height: 1.04;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--orange);
+}
+
+.v-frame {
+  grid-column: 2 / 10;
+  grid-row: 2;
+  position: relative;
+  z-index: 2;
+  display: block;
+  margin-top: -17vw;
+  aspect-ratio: 16 / 9;
+  border: clamp(6px, 0.9vw, 16px) solid var(--snow);
+  background: var(--ink);
+  rotate: -1.6deg;
+  box-shadow: 1.2vw 1.2vw 0 var(--ink);
+  transition: rotate 320ms cubic-bezier(0.22, 1.4, 0.36, 1), box-shadow 320ms;
+}
+
+.v-frame:hover {
+  rotate: 0.4deg;
+  box-shadow: 0.5vw 0.5vw 0 var(--ink);
+}
+
+.v-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.v-play {
+  position: absolute;
+  left: 1.2em;
+  bottom: 1em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  padding: 0.28em 0.6em 0.22em;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(22px, 2.7vw, 46px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.v-play svg {
+  width: 0.72em;
+  height: 0.72em;
+  fill: currentColor;
+}
+
+/* The lift pass holds the credits */
+.pass {
+  grid-column: 8 / 12;
+  grid-row: 2 / 4;
+  position: relative;
+  z-index: 3;
+  align-self: start;
+  margin-top: 20vw;
+  padding: 3.6em 1.5em 1.3em;
+  background: var(--snow);
+  color: var(--ink);
+  border-radius: 18px;
+  border: 2px solid var(--ink);
+  font-size: clamp(13px, 1vw, 16px);
+}
+
+.pass::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 1.5em);
+  width: 16px;
+  height: 100vh;
+  margin-left: -8px;
+  background: repeating-linear-gradient(135deg, var(--orange) 0 9px, var(--ink) 9px 18px);
+}
+
+.pass-hole {
+  position: absolute;
+  top: 1em;
+  left: 50%;
+  width: 3.2em;
+  height: 1em;
+  margin-left: -1.6em;
+  border-radius: 1em;
+  background: var(--sky);
+  box-shadow: inset 0 0 0 2px rgb(10 16 32 / 0.35);
+}
+
+.pass-brand {
+  margin: 0;
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.pass-title {
+  margin: 0.1em 0 0.7em;
+  font-family: var(--display);
+  font-size: clamp(30px, 3vw, 52px);
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+
+.pass dl {
+  margin: 0;
+  border-top: 2px solid var(--ink);
+}
+
+.pass dl > div {
+  display: grid;
+  grid-template-columns: 5.4em 1fr;
+  gap: 0.6em;
+  padding: 0.5em 0;
+  border-bottom: 1px solid rgb(10 16 32 / 0.25);
+}
+
+.pass dt {
+  font-weight: 700;
+}
+
+.pass dd {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.pass-code {
+  display: block;
+  height: 2.8em;
+  margin-top: 1em;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 2px,
+    transparent 2px 5px,
+    var(--ink) 5px 9px,
+    transparent 9px 11px,
+    var(--ink) 11px 12px,
+    transparent 12px 17px
+  );
+}
+
+.v-copy {
+  grid-column: 2 / 7;
+  grid-row: 3;
+  position: relative;
+  z-index: 2;
+  margin-top: 5vw;
+  padding: 1.5em 1.6em 1.6em;
+  background: var(--ink);
+}
+
+.v-copy p {
+  margin: 0 0 1.1em;
+  font-size: clamp(17px, 1.5vw, 24px);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.v-book {
+  display: inline-block;
+  padding: 0.3em 0.55em 0.22em;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(22px, 2.1vw, 36px);
+  line-height: 1.15;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 160ms;
+}
+
+.v-book:hover {
+  background: var(--snow);
+}
+
+/* ---------- Footer ---------- */
+.m-foot {
+  position: relative;
+  overflow: clip;
+  background: var(--ink);
+  color: var(--snow);
+  padding: 3vw 3vw 110px;
+}
+
+.m-foot-word {
+  margin: 0 0 3vw -0.5vw;
+  font-family: var(--display);
+  font-size: 15.7vw;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--orange);
+}
+
+.m-foot-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em 3vw;
+}
+
+.m-foot h2 {
+  margin: 0 0 0.5em;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--orange);
+}
+
+.m-foot ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.m-foot li a {
+  display: inline-block;
+  padding: 0.12em 0;
+  font-family: var(--display);
+  font-size: clamp(26px, 3.2vw, 56px);
+  line-height: 1.16;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.m-foot li a:hover {
+  color: var(--orange);
+}
+
+.m-foot :focus-visible {
+  outline-color: var(--snow);
+}
+
+/* ---------- Rail and switch ---------- */
+.rail,
+.switch {
+  position: fixed;
+  z-index: 40;
+  bottom: 18px;
+  font-family: var(--display);
+  font-size: 19px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.rail {
+  left: 18px;
+  right: 104px;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  width: fit-content;
+  max-width: calc(100vw - 122px);
+}
+
+.rail a {
+  flex: none;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  background: var(--ink);
+  color: var(--snow);
+  text-decoration: none;
+}
+
+.rail a:hover {
+  background: var(--snow);
+  color: var(--ink);
+}
+
+.rail a[aria-current] {
+  background: #ffe14d;
+  color: var(--ink);
+}
+
+/* A plain white chip in Tech's typeface: a glimpse of the other world. */
+.switch {
+  right: 18px;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  background: #fff;
+  color: #111;
+  border-radius: 999px;
+  text-decoration: none;
+  text-transform: none;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Theatre ---------- */
+.theatre {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  place-items: center;
+}
+
+.theatre[open] {
+  display: grid;
+}
+
+.theatre::backdrop {
+  background: #05070d;
+  animation: dim 420ms ease both;
+}
+
+@keyframes dim {
+  from {
+    background: rgb(5 7 13 / 0);
+  }
+}
+
+.theatre-frame {
+  width: min(92vw, calc((100dvh - 120px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  background: #000;
+  transform-origin: 0 0;
+}
+
+.theatre-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.theatre-close {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 19px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.theatre.closing .theatre-close {
+  opacity: 0;
+}
+
+.theatre :focus-visible {
+  outline-color: var(--snow);
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 760px) {
+  .hero-title {
+    width: 106vw;
+    margin-left: -3vw;
+  }
+
+  .play {
+    top: 44vw;
+    right: 4vw;
+    width: 112px;
+  }
+
+  .hero-foot {
+    padding: 6vw 5vw 96px;
+  }
+
+  .hero-by {
+    font-size: 17.6vw;
+    line-height: 1;
+    white-space: normal;
+    margin-bottom: 0.3em;
+  }
+
+
+
+  .pass dl > div {
+    grid-template-columns: 4.7em 1fr;
+  }
+
+  .p-verbier {
+    display: block;
+    padding: 4vw 0 90px;
+  }
+
+  .v-frame {
+    margin: -19vw 4vw 0;
+  }
+
+  .pass {
+    width: min(84vw, 340px);
+    margin: 40px auto 0;
+  }
+
+  .pass::before {
+    height: 80px;
+  }
+
+  .v-copy {
+    margin: 36px 5vw 0;
+  }
+
+
+  .m-foot-links {
+    grid-template-columns: 1fr;
+  }
+
+  .m-foot {
+    padding: 8vw 5vw 96px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .spin {
+    animation: none;
+  }
+}

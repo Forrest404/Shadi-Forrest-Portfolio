@@ -1,0 +1,18 @@
+---
+import Frame from './Frame.astro';
+import { films } from '../../data/films';
+const film = films.california;
+---
+<section class="p-cal" id={film.id}>
+  <div class="c-sun" aria-hidden="true"></div>
+  <h2 class="c-word">California<br />Dreamin’</h2>
+  <div class="c-sleeve">
+    <span class="c-disc" aria-hidden="true"></span>
+    <Frame name="california" yt={film.yt} title={film.title} class="c-frame" ratio="1 / 1" />
+  </div>
+  <div class="c-copy">
+    <p class="c-kicker">Music video, November 2025</p>
+    <p>A woman stuck in a repetitive corporate job dreams of becoming a singer. She quits and goes for it.</p>
+    <p>The opening is one continuous shot. I saved the first and last frame of each clip and had Higgsfield AI generate the frames between them.</p>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+import { u } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import '@fontsource/anton/400.css';
+import '@fontsource-variable/schibsted-grotesk/wght.css';
+import '@fontsource-variable/geist-mono/wght.css';
+import '../styles/transition.css';
+import '../styles/landing.css';
+---
+<Base
+  title="Shadi Forrest Portfolio"
+  description="Shadi Forrest makes ski films, ads and music videos, and builds devices and software."
+  world="landing"
+>
+  <link slot="head" rel="preload" as="image" href={u('/img/landing.avif')} />
+  <main class="seam">
+    <h1 class="sr">Shadi Forrest</h1>
+    <!-- The name is in both doors: white on Media, black on Tech. Media's clip cuts
+         its copy at the seam, so the colour flips exactly on the line. -->
+    <a class="door door-media" href={u('/media')}>
+      <video data-loop muted loop playsinline preload="auto" poster={u('/img/landing.avif')} aria-hidden="true" tabindex="-1">
+        <source src={u('/video/landing.av1.mp4')} type='video/mp4; codecs="av01.0.05M.08"' />
+        <source src={u('/video/landing.mp4')} type="video/mp4" />
+      </video>
+      <span class="name" aria-hidden="true">Shadi Forrest</span>
+      <span class="word">Media</span>
+      <span class="note">Ski films, ads, music videos</span>
+    </a>
+    <a class="door door-tech" href={u('/tech')}>
+      <span class="name" aria-hidden="true">Shadi Forrest</span>
+      <span class="word">Tech</span>
+      <span class="note">Devices, software, computer vision</span>
+    </a>
+  </main>
+  <script>
+    import '../scripts/loops.ts';
+  </script>
+</Base>

@@ -1,0 +1,13 @@
+---
+import { u } from '../../lib/url';
+// A looping silent clip that opens the film in the theatre on click.
+interface Props { name: string; yt: string; title: string; class?: string; ratio?: string }
+const { name, yt, title, class: cls = '', ratio } = Astro.props;
+---
+<a class:list={['frame', cls]} href={`https://youtu.be/${yt}`} data-film={yt} data-title={title} aria-label={`Play ${title}`} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
+  <video data-loop muted loop playsinline preload="none" poster={u(`/img/${name}.avif`)} tabindex="-1" aria-hidden="true">
+    <source src={u(`/video/${name}.av1.mp4`)} type='video/mp4; codecs="av01.0.05M.08"' />
+    <source src={u(`/video/${name}.mp4`)} type="video/mp4" />
+  </video>
+  <span class="frame-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l14 8-14 8z"></path></svg>Play film</span>
+</a>

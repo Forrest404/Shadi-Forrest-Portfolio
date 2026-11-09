@@ -1,0 +1,634 @@
+/* One poster per film. Each has its own colours and layout; the shared bits are .frame and .frame-play. */
+.frame {
+  position: relative;
+  display: block;
+  background: #000;
+  overflow: hidden;
+}
+
+.frame:focus-visible {
+  outline: 4px solid var(--focus, #fff);
+  outline-offset: 4px;
+}
+
+.frame video {
+  transition: filter 200ms;
+}
+
+.frame:hover video {
+  filter: brightness(1.08);
+}
+
+.frame:active {
+  opacity: 0.92;
+}
+
+.frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.frame-play {
+  position: absolute;
+  left: 0.9em;
+  bottom: 0.8em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.28em 0.6em 0.22em;
+  background: var(--tag-bg, var(--orange));
+  color: var(--tag-fg, var(--ink));
+  font-family: var(--display);
+  font-size: clamp(18px, 2vw, 34px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.frame-play svg {
+  width: 0.72em;
+  height: 0.72em;
+  fill: currentColor;
+}
+
+/* ---------- GREY ZONE: black, one acid colour, a case file ---------- */
+.p-grey {
+  --acid: #c8ff00;
+  --tag-bg: var(--acid);
+  --focus: var(--acid);
+  position: relative;
+  overflow: clip;
+  background: #0b0b0b;
+  color: #e9e9e2;
+  padding: 3vw 0 8vw;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 34em);
+  column-gap: 4vw;
+}
+
+.g-word {
+  grid-column: 1 / -1;
+  margin: 0 0 0 2.6vw;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 25vw;
+  line-height: 0.86;
+  text-transform: uppercase;
+  color: #e9e9e2;
+}
+
+.g-word span:last-child {
+  color: var(--acid);
+  margin-left: 14vw;
+}
+
+.g-frame {
+  grid-column: 1 / -1;
+  margin: 1vw 0 0;
+  position: relative;
+  z-index: 2;
+  border-block: 3px solid var(--acid);
+}
+
+.g-file {
+  position: relative;
+  z-index: 3;
+  grid-column: 2;
+  grid-row: 3;
+  margin: -5vw 4vw 0 0;
+  padding: 2.6em 1.5em 1.3em;
+  background: #e9e9e2;
+  color: #0b0b0b;
+  font-size: clamp(13px, 1vw, 16px);
+  rotate: 1.6deg;
+  box-shadow: 0.7vw 0.7vw 0 var(--acid);
+}
+
+.g-tab {
+  position: absolute;
+  top: -1.8em;
+  left: 0;
+  margin: 0;
+  padding: 0.35em 1em;
+  background: #e9e9e2;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.g-file dl {
+  margin: 0;
+}
+
+.g-file dl > div {
+  display: grid;
+  grid-template-columns: 9em 1fr;
+  gap: 0.6em;
+  padding: 0.5em 0;
+  border-bottom: 1px solid rgb(11 11 11 / 0.3);
+}
+
+.g-file dt {
+  font-weight: 700;
+}
+
+.g-file dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.g-stamp {
+  position: absolute;
+  right: 1em;
+  top: 0.9em;
+  padding: 0.1em 0.5em;
+  border: 3px solid #d4261f;
+  color: #d4261f;
+  font-family: var(--display);
+  font-size: 1.8em;
+  text-transform: uppercase;
+  rotate: -8deg;
+}
+
+.g-copy {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 3;
+  margin: 3.5vw 0 0 4vw;
+  font-size: clamp(17px, 1.5vw, 24px);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.g-copy p {
+  margin: 0 0 1em;
+}
+
+.bar {
+  background: var(--acid);
+  color: var(--acid);
+  padding: 0 0.15em;
+  transition: color 200ms;
+}
+
+.bar:hover,
+.bar:focus-within {
+  color: #0b0b0b;
+}
+
+/* Touch has no hover, so the bar also lifts by itself once the poster is on screen. */
+@media (prefers-reduced-motion: no-preference) {
+  .bar {
+    animation: unredact linear both;
+    animation-timeline: view();
+    animation-range: entry 60% cover 40%;
+  }
+}
+
+@keyframes unredact {
+  to {
+    color: #0b0b0b;
+  }
+}
+
+/* ---------- Kodak ad: film-box yellow and red ---------- */
+.p-kodak {
+  --tag-bg: #e4202a;
+  --tag-fg: #fff3c4;
+  --focus: #1a0a06;
+  position: relative;
+  overflow: clip;
+  background: #ffb800;
+  color: #1a0a06;
+  padding: 3vw 3vw 8vw;
+}
+
+.k-word {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 24vw;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #e4202a;
+}
+
+.k-word em {
+  font-style: normal;
+  color: #1a0a06;
+}
+
+.k-row {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 3vw;
+  align-items: start;
+  margin-top: -2vw;
+}
+
+.k-box {
+  margin: 0;
+  padding: 0.9vw 0.9vw 0;
+  background: #e4202a;
+  box-shadow: 0.9vw 0.9vw 0 #1a0a06;
+}
+
+.k-a {
+  rotate: -1.4deg;
+}
+
+.k-b {
+  rotate: 1.2deg;
+  margin-top: 5vw;
+}
+
+.k-box .frame {
+  aspect-ratio: 16 / 9;
+}
+
+.k-box figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.55em 0.1em 0.5em;
+  color: #fff3c4;
+  font-family: var(--display);
+  font-size: clamp(20px, 2.6vw, 44px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.k-box figcaption span {
+  font-family: var(--mono);
+  font-size: 0.4em;
+  font-weight: 700;
+  align-self: center;
+  padding: 0.2em 0.6em;
+  background: #fff3c4;
+  color: #1a0a06;
+}
+
+.k-copy {
+  width: min(38em, 100%);
+  margin-top: 4vw;
+  font-size: clamp(17px, 1.5vw, 24px);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.k-copy p {
+  margin: 0 0 1em;
+}
+
+.k-stripe {
+  position: absolute;
+  right: -4vw;
+  bottom: 2.4vw;
+  width: 38vw;
+  height: 3vw;
+  background: repeating-linear-gradient(90deg, #e4202a 0 4vw, #1a0a06 4vw 5vw);
+  rotate: -5deg;
+}
+
+/* ---------- California Dreamin': a record sleeve in a 70s sunset ---------- */
+.p-cal {
+  --tag-bg: #fff1d6;
+  --tag-fg: #8a1f1a;
+  --focus: #fff1d6;
+  position: relative;
+  overflow: clip;
+  min-height: 56vw;
+  padding: 3vw 4vw 8vw;
+  background: linear-gradient(175deg, #ffb347 0%, #ff6a3d 38%, #d6336c 72%, #5a2a82 100%);
+  color: #fff1d6;
+}
+
+.c-sun {
+  position: absolute;
+  right: -10vw;
+  top: 9vw;
+  width: 48vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-linear-gradient(180deg, #ffe08a 0 3.2vw, transparent 3.2vw 4vw);
+  opacity: 0.85;
+}
+
+.c-word {
+  position: relative;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 14.8vw;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #fff1d6;
+  text-shadow: 0.5vw 0.5vw 0 #8a1f1a;
+}
+
+.c-sleeve {
+  position: relative;
+  width: 34vw;
+  margin: 3vw 0 0 6vw;
+  rotate: -3deg;
+}
+
+.c-disc {
+  position: absolute;
+  top: 3%;
+  left: 38%;
+  width: 94%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #d6336c 0 11%, #1a0a14 11.5% 14%, transparent 14%),
+    repeating-radial-gradient(circle, #14080f 0 3px, #2a1420 3px 5px);
+  animation: spin 9s linear infinite;
+  box-shadow: 0 1vw 3vw rgb(0 0 0 / 0.35);
+}
+
+.c-frame {
+  position: relative;
+  border: 0.9vw solid #fff1d6;
+  box-shadow: 1vw 1vw 0 #8a1f1a;
+}
+
+.c-copy {
+  position: absolute;
+  right: 4vw;
+  bottom: 7vw;
+  width: min(33em, 40vw);
+  padding: 1.5em 1.6em 1.2em;
+  background: #fff1d6;
+  color: #3a0f1c;
+  font-size: clamp(15px, 1.25vw, 20px);
+  line-height: 1.42;
+  rotate: 1.5deg;
+}
+
+.c-copy p {
+  margin: 0 0 0.9em;
+}
+
+.c-kicker {
+  font-weight: 700;
+  color: #a8204f;
+}
+
+/* ---------- Westminster Mile: a pinned race bib ---------- */
+.p-mile {
+  --tag-bg: #111;
+  --tag-fg: #fff;
+  --focus: #111;
+  position: relative;
+  overflow: clip;
+  background: #e5173f;
+  padding: 5vw 4vw 8vw;
+  display: grid;
+  grid-template-columns: 7fr 4fr;
+  gap: 4vw;
+  align-items: start;
+}
+
+.w-bib {
+  position: relative;
+  padding: 3.2vw 3vw 3vw;
+  background: #fbfaf6;
+  color: #111;
+  rotate: -1.6deg;
+  box-shadow: 1vw 1vw 0 #111;
+}
+
+.pin {
+  position: absolute;
+  width: 1.5vw;
+  height: 1.5vw;
+  min-width: 12px;
+  min-height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #9a9a9a 60%, #555);
+  box-shadow: 0 0.2vw 0.3vw rgb(0 0 0 / 0.4);
+}
+
+.pin-a { top: 1vw; left: 1vw; }
+.pin-b { top: 1vw; right: 1vw; }
+.pin-c { bottom: 1vw; left: 1vw; }
+.pin-d { bottom: 1vw; right: 1vw; }
+
+.w-top {
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(12px, 1.2vw, 20px);
+}
+
+.w-word {
+  margin: 0.1em 0 0.15em;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 12vw;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.w-num {
+  position: absolute;
+  top: 1.2vw;
+  right: 3.6vw;
+  margin: 0;
+  font-family: var(--display);
+  font-size: 6vw;
+  line-height: 1;
+  color: #e5173f;
+}
+
+.w-frame {
+  aspect-ratio: 16 / 9;
+  border: 0.4vw solid #111;
+}
+
+.w-copy {
+  margin-top: 6vw;
+  color: #fff;
+  font-size: clamp(17px, 1.5vw, 24px);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.w-copy p {
+  margin: 0 0 1em;
+}
+
+.w-time {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  background: #111;
+  font-weight: 700;
+}
+
+/* ---------- China vlog: ticket stub and passport stamps ---------- */
+.p-china {
+  --tag-bg: #f6e7c8;
+  --tag-fg: #8a1f1a;
+  --focus: #f6e7c8;
+  position: relative;
+  overflow: clip;
+  background: #0f2a2e;
+  color: #f6e7c8;
+  padding: 4vw 4vw 9vw;
+}
+
+.n-word {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22vw;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.n-word span {
+  color: #e8483c;
+}
+
+.n-ticket {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 15vw;
+  width: min(84vw, 100%);
+  margin-top: -1vw;
+  background: #f6e7c8;
+  color: #1a1410;
+  rotate: -1.2deg;
+  box-shadow: 1vw 1vw 0 #e8483c;
+}
+
+.n-frame {
+  aspect-ratio: 16 / 9;
+  margin: 1.4vw;
+}
+
+.n-stub {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.4vw 1.2vw;
+  border-left: 3px dashed #1a1410;
+  font-weight: 700;
+  font-size: clamp(11px, 1.05vw, 17px);
+  text-transform: uppercase;
+}
+
+.n-stub p {
+  margin: 0;
+}
+
+.n-route {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 2.2em;
+  line-height: 1.05;
+}
+
+.n-copy {
+  width: min(30em, 80vw);
+  margin: 4vw 0 0 auto;
+  font-size: clamp(17px, 1.5vw, 24px);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.n-copy p {
+  margin: 0;
+}
+
+.n-stamp {
+  position: absolute;
+  width: clamp(110px, 15vw, 250px);
+  color: #e8483c;
+  opacity: 0.88;
+}
+
+.n-stamp svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+}
+
+.n-stamp text {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 15px;
+  fill: currentColor;
+  stroke: none;
+}
+
+.n-stamp .mid {
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.n-s1 {
+  right: 5vw;
+  top: 6vw;
+  rotate: 14deg;
+}
+
+.n-s2 {
+  left: 8vw;
+  bottom: 3vw;
+  rotate: -10deg;
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 760px) {
+  .p-grey { display: block; padding-bottom: 96px; }
+  .g-word { font-size: 30vw; }
+  .g-frame { margin-top: 2vw; aspect-ratio: 16 / 9 !important; }
+  .g-file { width: min(88vw, 34em); margin: 36px auto 0; rotate: 1deg; }
+  .g-file dl > div { grid-template-columns: 7em 1fr; }
+  .g-stamp { top: -1.1em; right: 0.6em; font-size: 1.3em; background: #e9e9e2; }
+  .g-copy { margin: 28px 5vw 0; width: auto; }
+
+  .p-kodak { padding-bottom: 96px; }
+  .k-row { grid-template-columns: 1fr; gap: 6vw; margin-top: 0; }
+  .k-b { margin-top: 0; }
+  .k-box { padding: 8px 8px 0; box-shadow: 6px 6px 0 #1a0a06; }
+  .k-stripe { display: none; }
+
+  .p-cal { min-height: 0; padding-bottom: 96px; }
+  .c-word { font-size: 17vw; }
+  .c-sleeve { width: 66vw; margin: 8vw 0 0 4vw; }
+  .c-frame { border-width: 6px; box-shadow: 6px 6px 0 #8a1f1a; }
+  .c-copy { position: relative; right: auto; bottom: auto; width: auto; margin: 36px 0 0; }
+
+  .p-mile { grid-template-columns: minmax(0, 1fr); padding-bottom: 96px; }
+  .w-copy { min-width: 0; }
+  .w-bib { padding: 26px 20px 20px; box-shadow: 6px 6px 0 #111; }
+  .w-word { font-size: 15vw; }
+  .w-num { font-size: 12vw; top: 24px; right: 22px; }
+  .w-frame { border-width: 3px; }
+  .w-copy { margin-top: 0; }
+
+  .p-china { padding-bottom: 96px; }
+  .n-word { font-size: 28vw; }
+  .n-ticket { grid-template-columns: 1fr; width: 100%; box-shadow: 6px 6px 0 #e8483c; }
+  .n-frame { margin: 10px; }
+  .n-stub { flex-direction: row; gap: 1em; align-items: center; border-left: 0; border-top: 3px dashed #1a1410; padding: 12px; }
+  .n-route { font-size: 1.6em; }
+  .n-copy { width: auto; margin: 28px 0 0; }
+  .n-stamp { width: 96px; }
+  .n-s1 { top: 16vw; right: 3vw; }
+  .n-s2 { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-disc { animation: none; }
+}

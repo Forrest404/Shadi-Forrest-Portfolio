@@ -1,0 +1,44 @@
+---
+import { u } from '../../lib/url';
+import letters from '../../data/letters.json';
+import { films } from '../../data/films';
+const film = films.reel;
+---
+<section class="hero" id={film.id}>
+  <svg class="defs" width="0" height="0" aria-hidden="true">
+    <clipPath id="sf-letters" clipPathUnits="objectBoundingBox">
+      <path transform={`scale(${1 / letters.w} ${1 / letters.h})`} d={letters.d}></path>
+    </clipPath>
+  </svg>
+
+  <h1 class="hero-title" style={`aspect-ratio:${letters.w}/${letters.h}`}>
+    <span class="sr">Studio Forrest</span>
+    <span class="hero-clip" aria-hidden="true">
+      <video data-loop muted loop playsinline preload="auto" poster={u('/img/letters.avif')} tabindex="-1">
+        <source src={u('/video/letters.av1.mp4')} type='video/mp4; codecs="av01.0.05M.08"' />
+        <source src={u('/video/letters.mp4')} type="video/mp4" />
+      </video>
+    </span>
+  </h1>
+
+  <a
+    class="play"
+    href={`https://youtu.be/${film.yt}`}
+    data-film={film.yt}
+    data-title={film.title}
+    aria-label={`Play ${film.title}`}
+  >
+    <svg viewBox="0 0 200 200" aria-hidden="true">
+      <defs><path id="play-ring" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1 -156 0"></path></defs>
+      <g class="spin">
+        <text><textPath href="#play-ring" textLength="486">PLAY THE SHOWREEL * PLAY THE SHOWREEL * </textPath></text>
+      </g>
+      <path class="tri" d="M84 72 L132 100 L84 128 Z"></path>
+    </svg>
+  </a>
+
+  <div class="hero-foot">
+    <p class="hero-by">Films by Shadi Forrest</p>
+    <p class="hero-what">Ski films from Verbier, and some ads, music videos and short films. Press play on anything.</p>
+  </div>
+</section>

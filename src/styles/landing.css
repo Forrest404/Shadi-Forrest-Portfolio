@@ -1,0 +1,196 @@
+@property --seam {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 50%;
+}
+
+:root {
+  --wipe-from: inset(0 50% 0 50%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #fff;
+}
+
+.seam {
+  --seam: 50%;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  transition: --seam 720ms cubic-bezier(0.22, 1.18, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .seam:has(.door-media:hover),
+  .seam:has(.door-media:focus-visible) {
+    --seam: 72%;
+  }
+  .seam:has(.door-tech:hover),
+  .seam:has(.door-tech:focus-visible) {
+    --seam: 28%;
+  }
+}
+
+.door {
+  position: absolute;
+  inset: 0;
+  display: block;
+  text-decoration: none;
+  outline: none;
+}
+
+/* Each door is its own stacking layer, with Media always on top, so nothing
+   inside Tech can paint over the footage. */
+.door-tech {
+  z-index: 0;
+  background: #fff;
+  color: #111;
+}
+
+/* The Media door is a full-screen layer clipped at the seam, so its hit area,
+   footage and lettering all stop exactly at the line. */
+.door-media {
+  z-index: 1;
+  background: #0b4aa8;
+  color: #fff;
+  clip-path: inset(0 calc(100% - var(--seam)) 0 0);
+}
+
+.door-media video,
+.door-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.door-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(4 22 60 / 0.34), rgb(4 22 60 / 0.1) 30%, rgb(4 22 60 / 0.5));
+}
+
+.word {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  white-space: nowrap;
+}
+
+.door-media .word {
+  left: calc(var(--seam) / 2);
+  transform: translate(-50%, -50%);
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: min(21vw, 46vh);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.door-tech .word {
+  left: calc((100% + var(--seam)) / 2);
+  transform: translate(-50%, -50%);
+  font-family: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  font-size: min(8.4vw, 18vh);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.note {
+  position: absolute;
+  z-index: 1;
+  bottom: clamp(20px, 3.4vh, 36px);
+  white-space: nowrap;
+  font-size: clamp(14px, 1.15vw, 18px);
+}
+
+.door-media .note {
+  left: clamp(20px, 2.4vw, 40px);
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: clamp(16px, 1.5vw, 24px);
+  letter-spacing: 0.02em;
+}
+
+.door-tech .note {
+  right: clamp(20px, 2.4vw, 40px);
+  font-family: 'Geist Mono Variable', ui-monospace, monospace;
+  letter-spacing: -0.02em;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.name {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: clamp(20px, 3.4vh, 36px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  font-size: clamp(20px, 2.1vw, 34px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.door:focus-visible .word {
+  text-decoration: underline;
+  text-decoration-thickness: 0.05em;
+  text-underline-offset: 0.12em;
+}
+
+/* Tall screens: the seam lies down. Media on top, Tech underneath. */
+@media (max-aspect-ratio: 1/1) {
+  .door-media {
+    clip-path: inset(0 0 calc(100% - var(--seam)) 0);
+  }
+  .door-media .word {
+    left: 50%;
+    top: calc(var(--seam) / 2);
+    font-size: min(38vw, 24vh);
+  }
+  .door-tech .word {
+    left: 50%;
+    top: calc((100% + var(--seam)) / 2);
+    font-size: min(19vw, 12vh);
+  }
+  .door-media .note {
+    bottom: auto;
+    left: 50%;
+    top: clamp(20px, 3.4vh, 36px);
+    transform: translateX(-50%);
+  }
+  .door-tech .note {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* A horizontal line would slice through the letters, so here the name sits
+     just under it, on Tech's white. */
+  .name {
+    top: calc(var(--seam) + 18px);
+    font-size: clamp(20px, 5.4vw, 34px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seam {
+    transition: none;
+  }
+}

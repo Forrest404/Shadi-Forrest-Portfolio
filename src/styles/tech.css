@@ -1,0 +1,348 @@
+:root {
+  --wipe-from: inset(0 0 0 100%);
+  --ink: #111;
+  --soft: #6b6b68;
+  --line: #e7e7e3;
+  --page: clamp(20px, 3vw, 48px);
+  --mono: 'Geist Mono Variable', ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font-family: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.t-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px var(--page);
+  font-weight: 500;
+}
+
+.t-head a {
+  text-decoration: none;
+}
+
+.t-head a:hover {
+  text-decoration: underline;
+}
+
+.t-intro {
+  max-width: 20em;
+  margin: clamp(56px, 11vh, 132px) var(--page) clamp(72px, 15vh, 180px);
+  font-size: clamp(32px, 4.6vw, 72px);
+  font-weight: 500;
+  letter-spacing: -0.038em;
+  line-height: 1.06;
+}
+
+.t-work {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 112px);
+  padding: 0 var(--page);
+}
+
+.t-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.t-item {
+  padding: 26px 0 clamp(48px, 13vh, 150px);
+  border-top: 1px solid var(--line);
+}
+
+.t-inline {
+  display: none;
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 0 14px;
+  font-size: clamp(28px, 2.9vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.032em;
+  line-height: 1.1;
+}
+
+/* A small plus that turns to a minus when the details are open. */
+summary h2::after {
+  content: '+';
+  font-family: var(--mono);
+  font-size: 0.55em;
+  font-weight: 400;
+  color: var(--soft);
+  transition: color 160ms;
+}
+
+details[open] summary h2::after {
+  content: '\2212';
+}
+
+summary:hover h2::after {
+  color: var(--ink);
+}
+
+summary p {
+  max-width: 34em;
+  margin: 0;
+}
+
+.t-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 18px;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  color: var(--soft);
+}
+
+.t-more {
+  max-width: 34em;
+  margin-top: 16px;
+  animation: rise 240ms ease both;
+}
+
+.t-more p {
+  margin: 0 0 0.8em;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.t-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.t-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 500;
+}
+
+.t-links a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- Sticky preview ---------- */
+.t-pane {
+  position: sticky;
+  top: 28px;
+  align-self: start;
+}
+
+.t-pane-frame {
+  position: relative;
+  aspect-ratio: 1;
+  max-height: calc(100vh - 56px);
+  margin-left: auto;
+  background: #f3f3f0;
+  overflow: hidden;
+}
+
+.t-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+
+.t-slide.on {
+  opacity: 1;
+}
+
+.t-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.t-slide-name {
+  position: absolute;
+  left: 22px;
+  bottom: 16px;
+  font-size: clamp(28px, 2.9vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.032em;
+  color: #a4a4a0;
+}
+
+/* unidex arrives the way its screen does: a brief full-panel e-ink refresh. */
+.t-slide.eink {
+  transition: none;
+}
+
+.t-slide.eink.on {
+  animation: eink 300ms steps(1) both;
+}
+
+@keyframes eink {
+  0% {
+    opacity: 1;
+    filter: invert(1) grayscale(1) contrast(1.6);
+  }
+  40% {
+    opacity: 1;
+    filter: grayscale(1) contrast(1.6);
+  }
+  70% {
+    opacity: 1;
+    filter: invert(1) grayscale(1);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* ---------- Footer ---------- */
+.t-foot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px var(--page);
+  margin-top: 40px;
+  padding: 26px var(--page) 110px;
+  border-top: 1px solid var(--line);
+}
+
+.t-foot h2 {
+  margin: 0 0 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--soft);
+}
+
+.t-foot ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.t-foot li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  text-decoration: none;
+}
+
+.t-foot li a:hover {
+  text-decoration: underline;
+}
+
+/* A loud little window of ski footage: a glimpse of the other world. */
+.switch {
+  position: fixed;
+  z-index: 10;
+  right: 18px;
+  bottom: 18px;
+  width: 104px;
+  height: 58px;
+  overflow: hidden;
+  color: #fff;
+  background: #0b4aa8;
+  text-decoration: none;
+  transition: transform 180ms ease;
+}
+
+.switch:hover {
+  transform: translateY(-2px);
+}
+
+.switch video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.switch span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(4 22 60 / 0.32);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Phones and small tablets ---------- */
+@media (max-width: 860px) {
+  .t-work {
+    display: block;
+  }
+  .t-pane {
+    display: none;
+  }
+  .t-inline {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    margin-bottom: 22px;
+    background: #f3f3f0;
+  }
+  .t-foot {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-more {
+    animation: none;
+  }
+  .t-slide,
+  .t-slide.eink.on {
+    transition: none;
+    animation: none;
+  }
+}

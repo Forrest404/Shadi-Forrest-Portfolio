@@ -1,0 +1,17 @@
+import puppeteer from 'puppeteer-core';
+const out = process.argv[2];
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const b = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
+const p = await b.newPage(); await p.setViewport({ width: 1440, height: 900 });
+await p.goto('http://localhost:4321/media', { waitUntil: 'load' }); await wait(800);
+await p.evaluate(() => document.querySelector('.v-frame').scrollIntoView({ block: 'center', behavior: 'instant' })); await wait(500);
+const y0 = await p.evaluate(() => scrollY);
+await p.focus('.v-frame');
+await p.keyboard.press('Enter');
+await wait(160); await p.screenshot({ path: `${out}/theatre-mid.jpg`, type: 'jpeg', quality: 70 });
+await wait(2800); await p.screenshot({ path: `${out}/theatre-open.jpg`, type: 'jpeg', quality: 70 });
+const state = await p.evaluate(() => ({ open: document.querySelector('.theatre').open, src: document.querySelector('.theatre iframe')?.src, locked: document.documentElement.classList.contains('locked'), playing: [...document.querySelectorAll('video[data-loop]')].filter(v => !v.paused).length }));
+console.log('open', state);
+await p.keyboard.press('Escape'); await wait(700);
+console.log('closed', await p.evaluate((y0) => ({ open: document.querySelector('.theatre').open, iframe: !!document.querySelector('.theatre iframe'), focus: document.activeElement.className, scrollKept: scrollY === y0, locked: document.documentElement.classList.contains('locked'), playing: [...document.querySelectorAll('video[data-loop]')].filter(v => !v.paused).length }), y0));
+await b.close();

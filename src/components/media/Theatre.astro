@@ -1,0 +1,86 @@
+<dialog class="theatre" aria-label="Film player">
+  <div class="theatre-frame"></div>
+  <button class="theatre-close" type="button">Close</button>
+</dialog>
+
+<script>
+  // Clicking anything with data-film grows it into a player. The dialog element
+  // gives us the focus trap, Esc and focus return. The embed only loads on click.
+  const dialog = document.querySelector<HTMLDialogElement>('.theatre')!;
+  const frame = dialog.querySelector<HTMLElement>('.theatre-frame')!;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let origin: HTMLElement | null = null;
+
+  const flip = (el: HTMLElement) => {
+    const from = el.getBoundingClientRect();
+    const to = frame.getBoundingClientRect();
+    return [
+      {
+        transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`,
+      },
+      { transform: 'none' },
+    ];
+  };
+
+  const open = (trigger: HTMLElement) => {
+    origin = trigger.closest('[data-grow]') ?? trigger;
+    const id = trigger.dataset.film!;
+    dialog.showModal();
+    document.documentElement.classList.add('locked');
+    document.dispatchEvent(new CustomEvent('theatre', { detail: true }));
+
+    const iframe = document.createElement('iframe');
+    iframe.title = trigger.dataset.title ?? 'Film';
+    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+    frame.replaceChildren(iframe);
+
+    if (!reduce.matches) {
+      frame.animate(flip(origin), { duration: 520, easing: 'cubic-bezier(0.76, 0, 0.18, 1)' });
+    }
+  };
+
+  const close = async () => {
+    if (!dialog.open) return;
+    if (!reduce.matches && origin) {
+      const anim = frame.animate(flip(origin).reverse(), {
+        duration: 380,
+        easing: 'cubic-bezier(0.76, 0, 0.18, 1)',
+        fill: 'forwards',
+      });
+      dialog.classList.add('closing');
+      await anim.finished.catch(() => {});
+      anim.cancel();
+      dialog.classList.remove('closing');
+    }
+    dialog.close();
+  };
+
+  // Runs for every way of closing, including Esc.
+  dialog.addEventListener('close', () => {
+    frame.replaceChildren();
+    document.documentElement.classList.remove('locked');
+    document.dispatchEvent(new CustomEvent('theatre', { detail: false }));
+  });
+
+  dialog.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    void close();
+  });
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) void close();
+  });
+  dialog.querySelector('.theatre-close')!.addEventListener('click', () => void close());
+
+  document.addEventListener('click', (event) => {
+    const mouse = event as MouseEvent;
+    if (mouse.metaKey || mouse.ctrlKey || mouse.shiftKey || mouse.button !== 0) return;
+    const trigger = (event.target as Element).closest<HTMLElement>('a[data-film]');
+    if (!trigger) return;
+    event.preventDefault();
+    open(trigger);
+  });
+</script>

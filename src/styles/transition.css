@@ -1,0 +1,31 @@
+/* Cross-page wipe: the seam from the landing page carries on through navigation.
+   Each page sets --wipe-from to the clip it starts at. Browsers without
+   cross-document view transitions simply navigate normally. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: wipe 620ms cubic-bezier(0.76, 0, 0.18, 1) both;
+  mix-blend-mode: normal;
+}
+
+@keyframes wipe {
+  from {
+    clip-path: var(--wipe-from);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
