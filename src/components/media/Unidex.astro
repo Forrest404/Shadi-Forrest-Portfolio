@@ -1,0 +1,18 @@
+---
+import Frame from './Frame.astro';
+import { films } from '../../data/films';
+const film = films.unidex;
+---
+<section class="p-uni" id={film.id}>
+  <div class="u-grid">
+    <Frame name="unidex" file={film.file} href={film.ig} title={film.title} class="u-frame" />
+    <div class="u-side">
+      <p class="u-kicker">Advert, Instagram</p>
+      <h2 class="u-word">unidex</h2>
+      <p class="u-line">The little screen on your lanyard.</p>
+      <p>A 27-second promo for unidex, my pocket e-ink computer. It shows the case, the colours, Pets meeting each other, notes, and writing your own apps in a few lines of Lua.</p>
+      <p class="u-links"><a href={film.ig}>Watch on Instagram</a> <a href="https://www.unidex.shop">unidex.shop</a></p>
+    </div>
+  </div>
+  <span class="u-keys" aria-hidden="true"><i></i><i></i></span>
+</section>

@@ -9,7 +9,7 @@ await p.setViewport({ width: +w, height: mobile ? 844 : 900, isMobile: mobile, h
 const errs = [];
 p.on('pageerror', (e) => errs.push(e.message));
 p.on('response', (r) => { if (r.status() >= 400) errs.push(r.status() + ' ' + r.url()); });
-await p.goto('http://localhost:4321/media', { waitUntil: 'load' });
+await p.goto('http://localhost:4321/Shadi-Forrest-Portfolio/media/', { waitUntil: 'load' });
 await new Promise((r) => setTimeout(r, 1000));
 for (const id of list) {
   const el = await p.$('#' + id);

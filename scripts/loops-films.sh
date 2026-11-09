@@ -27,3 +27,4 @@ cut vfx        NntU6OS09BA 7.6  5
 cut california o-zGjN61-NE 142 6 1800k 'crop=iw*0.72:ih:iw*0.14:0,'
 cut westminster ZzeAs-jzUes 24.8 2.2
 cut china      sMBT6y-thZk 0 6
+cut unidex     unidex      18.4 6

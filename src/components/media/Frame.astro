@@ -1,10 +1,11 @@
 ---
 import { u } from '../../lib/url';
 // A looping silent clip that opens the film in the theatre on click.
-interface Props { name: string; yt: string; title: string; class?: string; ratio?: string }
-const { name, yt, title, class: cls = '', ratio } = Astro.props;
+interface Props { name: string; yt?: string; file?: string; href?: string; title: string; class?: string; ratio?: string }
+// Either a YouTube id (opens in the theatre embed) or a self-hosted file (plays in the theatre).
+const { name, yt, file, href, title, class: cls = '', ratio } = Astro.props;
 ---
-<a class:list={['frame', cls]} href={`https://youtu.be/${yt}`} data-film={yt} data-title={title} aria-label={`Play ${title}`} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
+<a class:list={['frame', cls]} href={href ?? `https://youtu.be/${yt}`} data-film={yt} data-file={file ? u(file) : undefined} data-title={title} aria-label={`Play ${title}`} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
   <video data-loop muted loop playsinline preload="none" poster={u(`/img/${name}.avif`)} tabindex="-1" aria-hidden="true">
     <source src={u(`/video/${name}.av1.mp4`)} type='video/mp4; codecs="av01.0.05M.08"' />
     <source src={u(`/video/${name}.mp4`)} type="video/mp4" />

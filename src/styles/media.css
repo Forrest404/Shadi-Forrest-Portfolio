@@ -510,6 +510,7 @@ a {
   transform-origin: 0 0;
 }
 
+.theatre-frame video,
 .theatre-frame iframe {
   width: 100%;
   height: 100%;

@@ -1,0 +1,20 @@
+// Clicks the unidex ad frame and checks the theatre plays the self-hosted video. Needs `astro preview`.
+import puppeteer from 'puppeteer-core';
+const b = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--autoplay-policy=no-user-gesture-required'] });
+const p = await b.newPage();
+await p.setViewport({ width: 1440, height: 900 });
+const errs = [];
+p.on('pageerror', (e) => errs.push(e.message));
+p.on('response', (r) => { if (r.status() >= 400) errs.push(r.status() + ' ' + r.url()); });
+await p.goto('http://localhost:4321/Shadi-Forrest-Portfolio/media/', { waitUntil: 'load' });
+await p.evaluate(() => document.querySelector('#unidex .frame').scrollIntoView());
+await new Promise((r) => setTimeout(r, 600));
+await p.click('#unidex .frame');
+await new Promise((r) => setTimeout(r, 2500));
+const r = await p.evaluate(() => { const v = document.querySelector('dialog[open] video'); return v ? { src: v.currentSrc.split('/').pop(), ready: v.readyState, t: Math.round(v.currentTime * 10) / 10, paused: v.paused, controls: v.controls } : null; });
+console.log(JSON.stringify(r), errs.length ? errs.join(' | ') : 'no errors');
+await p.screenshot({ path: process.argv[2] ?? '/dev/null' });
+await p.keyboard.press('Escape');
+await new Promise((r) => setTimeout(r, 700));
+console.log('closed:', await p.evaluate(() => !document.querySelector('dialog[open]')));
+await b.close();

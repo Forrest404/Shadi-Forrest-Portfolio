@@ -24,18 +24,29 @@
 
   const open = (trigger: HTMLElement) => {
     origin = trigger.closest('[data-grow]') ?? trigger;
-    const id = trigger.dataset.film!;
+    const id = trigger.dataset.film;
+    const file = trigger.dataset.file;
     dialog.showModal();
     document.documentElement.classList.add('locked');
     document.dispatchEvent(new CustomEvent('theatre', { detail: true }));
 
-    const iframe = document.createElement('iframe');
-    iframe.title = trigger.dataset.title ?? 'Film';
-    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-    iframe.allowFullscreen = true;
-    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
-    frame.replaceChildren(iframe);
+    if (file) {
+      const video = document.createElement('video');
+      video.src = file;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.setAttribute('aria-label', trigger.dataset.title ?? 'Film');
+      frame.replaceChildren(video);
+    } else {
+      const iframe = document.createElement('iframe');
+      iframe.title = trigger.dataset.title ?? 'Film';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+      frame.replaceChildren(iframe);
+    }
 
     if (!reduce.matches) {
       frame.animate(flip(origin), { duration: 520, easing: 'cubic-bezier(0.76, 0, 0.18, 1)' });
@@ -78,7 +89,7 @@
   document.addEventListener('click', (event) => {
     const mouse = event as MouseEvent;
     if (mouse.metaKey || mouse.ctrlKey || mouse.shiftKey || mouse.button !== 0) return;
-    const trigger = (event.target as Element).closest<HTMLElement>('a[data-film]');
+    const trigger = (event.target as Element).closest<HTMLElement>('a[data-film], a[data-file]');
     if (!trigger) return;
     event.preventDefault();
     open(trigger);
